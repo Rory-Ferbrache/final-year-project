@@ -1,12 +1,12 @@
 import React from 'react';
 import './App.css';
-import AccountPage from './pages/account';
+import SignUpPage from './pages/SignUp';
 function App() {
   return (
     
     <div className="App">
       <header className="App-header">
-        <AccountPage />
+        <SignUpPage />
       <section>
         
       </section>
