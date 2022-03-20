@@ -3,12 +3,12 @@ import React, { useState, useRef } from 'react'
 import { useNavigate } from "react-router-dom"
 import { auth } from '../logic/firebase'
 import { Form, Button, Card, Alert } from "react-bootstrap"
-
+import "@fontsource/sora";
 
 
 
 function DashboardPage() {
-  
+
   const [user, setUser] = useState({});
   const navigation = useNavigate();
   onAuthStateChanged(auth, (currentUser) =>{
