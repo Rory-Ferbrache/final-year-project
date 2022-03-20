@@ -1,6 +1,8 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, signOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 // TODO: Replace the following with your app's Firebase project configuration
 const firebaseConfig = {
   apiKey: "AIzaSyBvP5vq7OGFe7FiQ5Ha6-Cu2C8m-wV7ocI",
@@ -17,28 +19,25 @@ export const auth = getAuth(app);
 
 
 export function AuthCreateUserWithEmailAndPassword(email,password,confirmPassword){
+  
+  
+
     if(password === confirmPassword){
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
-            // Signed in 
-            const user = userCredential.user;
-            // ...
+          console.log("success")
         })
         .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ..
+          console.log("failed")
         });
     }
 }
 
-export function AuthSignInWithEmailAndPassword(email,password){
+export const AuthSignInWithEmailAndPassword = async (email,password) => {
 
-    signInWithEmailAndPassword(auth, email, password)
+    await signInWithEmailAndPassword(auth, email, password)
     .then((userCredential) => {
-        // Signed in 
-        const user = userCredential.user;
-        // ...
+
     })
     .catch((error) => {
         const errorCode = error.code;
@@ -50,32 +49,35 @@ export function AuthSignInWithEmailAndPassword(email,password){
 
 
 export function AuthSignOut(){
-console.log('logging out')
 signOut(auth).then(() => {
   // Sign-out successful.
+  
+console.log('logging out')
 }).catch((error) => {
   // An error happened.
+  console.log(error.message)
 });
 }
 
 
 export function AuthOnAuthStateChanged(){
+  const navigation = useNavigate();
     useEffect(() => {
 
     const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           // User is signed in, see docs for a list of available properties
           // https://firebase.google.com/docs/reference/js/firebase.User
-          const uid = user.uid;
-          // ...
-          console.log("true")
-          return true
+          user.getIdToken().then(function (token){
+            console.log(token)
+            document.cookie = "token=" + user.uid;
+            navigation("/")
+          })
+          
         } else {
           // User is signed out
           // ...
-          <h1>bye</h1>
-          console.log("false")
-          return false
+            document.cookie = "token=";
         }
       });
     },[])
@@ -84,9 +86,6 @@ export function AuthOnAuthStateChanged(){
 export function AuthState(){
     const user = auth.currentUser
     if (user) {
-
-        const uid = user.uid;
-
         return true
       } else {
 

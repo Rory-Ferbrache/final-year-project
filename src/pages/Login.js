@@ -1,13 +1,12 @@
 import React, { useState, useRef } from 'react'
-import { auth } from '../logic/firebase'
 import { Form, Button, Card, Alert } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
-import { onAuthStateChanged, createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../logic/firebase'
+import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
 
-const SignUpPage = () => {
+const LoginPage = () => {
   const emailRef = useRef("");
   const passwordRef = useRef("");
-  const passwordConfirmRef = useRef("")
   const [error, setError] = useState();
   const [user, setUser] = useState({});
   const navigation = useNavigate();
@@ -16,15 +15,13 @@ const SignUpPage = () => {
     setUser(currentUser);
   });
 
-  const register = async () => {
+  const login = async () => {
     try {
-      console.log( emailRef.current.value)
-      const user = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-      navigation("/")
+      const user = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
+      navigation(-1)
     } catch (error) {
-     console.log(error)
+      setError(error)
     }
-   
  }
 
     return (
@@ -35,7 +32,7 @@ const SignUpPage = () => {
         <Card.Body>
           <h2 className="text-center mb-4">Sign Up</h2>
           {error && <Alert variant="danger">{error}</Alert>}
-          <Form onSubmit={register}>
+          <Form onSubmit={login}>
             <Form.Group id="email">
               <Form.Label>Email</Form.Label>
               <Form.Control type="email" ref={emailRef} required />
@@ -44,11 +41,7 @@ const SignUpPage = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control type="password" ref={passwordRef} required />
             </Form.Group>
-            <Form.Group id="password">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control type="password" ref={passwordConfirmRef} required />
-            </Form.Group>
-            <Button className="w-100" type="button" onClick={register}>
+            <Button className="w-100" type="button" onClick={login}>
               Sign up
             </Button>
           </Form>
@@ -59,4 +52,4 @@ const SignUpPage = () => {
   )
 }
 
-export default SignUpPage;
+export default LoginPage;
