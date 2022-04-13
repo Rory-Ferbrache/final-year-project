@@ -8,7 +8,9 @@ import About from './pages/About';
 import NavBar from './components/NavBar';
 import Calculate from './pages/Calculate';
 import Offset from './pages/Offset';
-
+import Account from './pages/Account';
+import "bootstrap/dist/css/bootstrap.min.css"
+import { Container } from "react-bootstrap"
 function App() {
   return (
     <Router>
@@ -20,6 +22,7 @@ function App() {
       <Route path="/about" exact element={<About/>} />
       <Route path="/calculate" exact element={<Calculate/>} />
       <Route path="/offset" exact element={<Offset/>} />
+      <Route path="/account" exact element={<Account/>} />
       </Routes>
     </Router>
   );

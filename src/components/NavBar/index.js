@@ -1,27 +1,37 @@
-import React from 'react'
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from "./NavBarElements"
-
+import React, { useState } from 'react'
+import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink, FaIcon } from "./NavBarElements"
+import { auth } from "../../logic/firebase"
+import { onAuthStateChanged} from 'firebase/auth';
+import { faSeedling, fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 const NavBar = () => {
+
+    const [user, setUser] = useState(auth.currentUser);
+    console.log("currUser: " + user)
+    onAuthStateChanged(auth, (currentUser) =>{
+      setUser(currentUser);
+    });
+
   return (
     <>
       <Nav>
           <NavLink to="/">
-              <h1>Logo</h1>
+          <FontAwesomeIcon icon={faSeedling}  size="2x" />
           </NavLink>
           <Bars />
           <NavMenu>
-              <NavLink to="calculate" activeStyle>
+              <NavLink to="calculate" >
                   Calculate
               </NavLink>
-              <NavLink to="offset" activeStyle>
+              <NavLink to="offset" >
                   Offset
               </NavLink>
-              <NavLink to="about" activeStyle>
+              <NavLink to="about" >
                   About
               </NavLink>
           </NavMenu>
           <NavBtn>
-              <NavBtnLink to="sign-up">Sign up</NavBtnLink> 
+              {user ? <NavBtnLink to="account">{user?.displayName}</NavBtnLink> : <NavBtnLink to="log-in">Log in</NavBtnLink>}
           </NavBtn>
         </Nav>
     </>

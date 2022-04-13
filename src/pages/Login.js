@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import { Form, Button, Card, Alert } from "react-bootstrap"
+import { Form, Button, Card, Alert, Container } from "react-bootstrap"
 import { useNavigate } from "react-router-dom"
 import { auth } from '../logic/firebase'
 import { onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth';
@@ -25,12 +25,16 @@ const LoginPage = () => {
  }
 
     return (
-      <>
-    <>
-    <h1>{ user ? user?.uid : "Sign in"}</h1>
+    <div style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '90vh',
+      width: '100vw'
+    }}>
     <Card>
         <Card.Body>
-          <h2 className="text-center mb-4">Sign Up</h2>
+          <h2 className="text-center mb-4">Log in</h2>
           {error && <Alert variant="danger">{error}</Alert>}
           <Form onSubmit={login}>
             <Form.Group id="email">
@@ -47,8 +51,7 @@ const LoginPage = () => {
           </Form>
         </Card.Body>
       </Card>
-    </>
-    </>
+    </div>
   )
 }
 
