@@ -24,15 +24,15 @@ const SignUpPage = () => {
 
 
   const register = async () => {
+    if(passwordConfirmRef.current.value === passwordRef.current.value){
     try {
-      console.log( emailRef.current.value)
       const user = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
       
 
     } catch (error) {
      console.log(error)
     }
-   
+  }else(alert("Passwords didn't match!"))
  }
 
 

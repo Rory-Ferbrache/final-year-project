@@ -7,7 +7,6 @@ import { FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 const NavBar = () => {
 
     const [user, setUser] = useState(auth.currentUser);
-    console.log("currUser: " + user)
     onAuthStateChanged(auth, (currentUser) =>{
       setUser(currentUser);
     });
